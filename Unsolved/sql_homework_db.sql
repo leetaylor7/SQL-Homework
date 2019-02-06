@@ -40,4 +40,31 @@ UPDATE actor
 SET first_name = "HARPO"
 WHERE first_name = "GROUCHO" AND last_name = "WILLIAMS";
 
+UPDATE actor
+SET first_name = "GROUCHO"
+WHERE first_name = "HARPO" AND last_name = "WILLIAMS";
+
+SHOW CREATE TABLE address;
+
+SELECT staff.first_name, staff.last_name, address.address
+FROM address
+INNER JOIN staff ON
+staff.address_id=address.address_id;
+
+SELECT staff.staff_id, staff.first_name, staff.last_name, payment.mySUM
+FROM  staff
+INNER JOIN 
+	(SELECT staff_id, SUM(amount) AS mySUM FROM payment
+	GROUP BY staff_id)
+	payment ON
+	staff.staff_id = payment.staff_id;
+
+
+SELECT customer.first_name, customer.last_name, payment.mySUM
+FROM customer
+INNER JOIN 
+	(SELECT customer_id, SUM(amount) AS mySUM FROM payment
+	GROUP BY customer_id) payment ON
+	customer.customer_id=payment.customer_id;
+
 
