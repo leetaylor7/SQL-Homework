@@ -114,7 +114,34 @@ SELECT *
 FROM film
 WHERE title LIKE "k%" AND language_id = 1;
 
+#This answers 7b
+SELECT DISTINCT film.title, actor.first_name, actor.last_name
+FROM film
+INNER JOIN film_actor
+	ON film.film_id = film_actor.film_id
+INNER JOIN actor
+	ON film_actor.actor_id = actor.actor_id
+WHERE film.title =  "Alone Trip"; 
+
+#This answers 7c
+SELECT customer.first_name, customer.last_name, address.address, country.country
+FROM customer
+INNER JOIN address
+	ON customer.address_id = address.address_id
+INNER JOIN city
+	ON address.city_id = city.city_id
+INNER JOIN country
+	ON city.country_id = country.country_id
+WHERE country = "Canada";
+
+#This answers 7d
+SELECT film.title, category.name
+FROM film
+INNER JOIN film_category 
+	ON film.film_id = film_category.film_id
+INNER JOIN category
+	ON film_category.category_id = category.category_id
+WHERE category.name = "Family";
 
 
-
-
+    
