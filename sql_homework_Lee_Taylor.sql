@@ -143,5 +143,67 @@ INNER JOIN category
 	ON film_category.category_id = category.category_id
 WHERE category.name = "Family";
 
+#This answers 7e
+SELECT film.title, COUNT(film.title) AS Total_Rentals
+FROM film
+INNER JOIN inventory 
+	ON film.film_id = inventory.film_id
+INNER JOIN rental
+	ON rental.inventory_id = inventory.inventory_id
+GROUP BY film.title;
 
+#This answers 7f
+SELECT store.store_id, SUM(payment.amount) AS total_revenue
+FROM store
+INNER JOIN staff
+	ON store.store_id = staff.store_id
+INNER JOIN payment
+	ON staff.staff_id = payment.staff_id
+GROUP BY store.store_id;
+
+#This answers 7g
+SELECT store.store_id, city.city, country.country
+FROM store
+INNER JOIN address
+	ON store.address_id = address.address_id
+INNER JOIN city
+	ON address.city_id = city.city_id
+INNER JOIN country
+	ON city.country_id = country.country_id;
     
+#This answers 7h
+SELECT category.name, SUM(payment.amount) AS Total_revenue
+FROM category
+INNER JOIN film_category
+	ON category.category_id = film_category.category_id
+INNER JOIN inventory
+	ON film_category.film_id = inventory.film_id
+INNER JOIN rental
+	ON inventory.inventory_id = rental.inventory_id
+INNER JOIN payment
+	ON rental.rental_id = payment.rental_id
+GROUP BY category.name
+ORDER BY Total_revenue
+LIMIT 5;
+
+#This answers 8a
+CREATE VIEW top_five_genres
+AS SELECT category.name, SUM(payment.amount) AS Total_revenue
+FROM category
+INNER JOIN film_category
+	ON category.category_id = film_category.category_id
+INNER JOIN inventory
+	ON film_category.film_id = inventory.film_id
+INNER JOIN rental
+	ON inventory.inventory_id = rental.inventory_id
+INNER JOIN payment
+	ON rental.rental_id = payment.rental_id
+GROUP BY category.name
+ORDER BY Total_revenue
+LIMIT 5;
+
+#This answers 8b
+SELECT * FROM top_five_genres;	
+	
+#This answers 8v
+DROP VIEW top_five_genres;
